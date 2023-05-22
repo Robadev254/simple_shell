@@ -16,7 +16,7 @@ int main(int argc, char *argv[], char *env[])
 	signal(SIGINT, handle_ctrl_c);
 
 	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO) && argc == 1)
-	{/* We are in the terminal, the interactive mode */
+	{/* We are in the terminal, interactive mode */
 		errno = 2;/*???????*/
 		prompt = PROMPT_MSG;
 	}
@@ -37,13 +37,13 @@ void handle_ctrl_c(int opr UNUSED)
 }
 
 /**
- * initialize_data - initialize the struct with the info of the program
+ * inicialize_data - inicialize the struct with the info of the program
  * @data: pointer to the structure of data
  * @argv: array of arguments pased to the program execution
  * @env: environ pased to the program execution
  * @argc: number of values received from the command line
  */
-void initialize_data(data_of_program *data, int argc, char *argv[], char **env)
+void inicialize_data(data_of_program *data, int argc, char *argv[], char **env)
 {
 	int i = 0;
 
