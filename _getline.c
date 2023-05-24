@@ -1,10 +1,10 @@
 #include "shell.h"
 
 /**
-* _getline - read one line from the prompt.
-* @data: struct for the program's data
+* _getline - it only reads  one line from the prompt.
+* @data: it is the struct for the program's data
 *
-* Return: reading counting bytes.
+* Return: its work is reading counting bytes.
 */
 int _getline(data_of_program *data)
 {
@@ -13,19 +13,19 @@ int _getline(data_of_program *data)
 	static char array_operators[10] = {'\0'};
 	ssize_t bytes_read, i = 0;
 
-	/* check if doesnot exist more commands in the array */
+	/* check if more commands does not exist  in the array */
 	/* and checks the logical operators */
 	if (!array_commands[0] || (array_operators[0] == '&' && errno != 0) ||
 		(array_operators[0] == '|' && errno == 0))
 	{
-		/*free the memory allocated in the array if it exists */
+		/*frees the memory allocated in the array if it exists */
 		for (i = 0; array_commands[i]; i++)
 		{
 			free(array_commands[i]);
 			array_commands[i] = NULL;
 		}
 
-		/* read from the file descriptor int to buff */
+		/* it reads from the file descriptor int to buff */
 		bytes_read = read(data->file_descriptor, &buff, BUFFER_SIZE - 1);
 		if (bytes_read == 0)
 			return (-1);
@@ -39,7 +39,7 @@ int _getline(data_of_program *data)
 		} while (array_commands[i++]);
 	}
 
-	/*obtains the next command (command 0) and remove it for the array*/
+	/*it obtains the next command (command 0) and remove it for the array*/
 	data->input_line = array_commands[0];
 	for (i = 0; array_commands[i]; i++)
 	{
