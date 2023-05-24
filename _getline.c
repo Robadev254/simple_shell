@@ -1,9 +1,8 @@
 #include "shell.h"
 
 /**
-* _getline - it only reads  one line from the prompt.
+* _getline - Function line from the prompt.
 * @data: it is the struct for the program's data
-*
 * Return: its work is reading counting bytes.
 */
 int _getline(data_of_program *data)
@@ -13,33 +12,24 @@ int _getline(data_of_program *data)
 	static char array_operators[10] = {'\0'};
 	ssize_t bytes_read, i = 0;
 
-	/* check if more commands does not exist  in the array */
-	/* and checks the logical operators */
 	if (!array_commands[0] || (array_operators[0] == '&' && errno != 0) ||
 		(array_operators[0] == '|' && errno == 0))
 	{
-		/*frees the memory allocated in the array if it exists */
 		for (i = 0; array_commands[i]; i++)
 		{
 			free(array_commands[i]);
 			array_commands[i] = NULL;
 		}
 
-		/* it reads from the file descriptor int to buff */
 		bytes_read = read(data->file_descriptor, &buff, BUFFER_SIZE - 1);
 		if (bytes_read == 0)
 			return (-1);
-
-		/* split lines for \n or ; */
 		i = 0;
 		do {
 			array_commands[i] = str_duplicate(_strtok(i ? NULL : buff, "\n;"));
-			/*checks and split for && and || operators*/
 			i = check_logic_ops(array_commands, i, array_operators);
 		} while (array_commands[i++]);
 	}
-
-	/*it obtains the next command (command 0) and remove it for the array*/
 	data->input_line = array_commands[0];
 	for (i = 0; array_commands[i]; i++)
 	{
@@ -52,11 +42,10 @@ int _getline(data_of_program *data)
 
 
 /**
-* check_logic_ops - checks and split for && and || operators
-* @array_commands: array of the commands.
+* check_logic_ops - Function that checks and split for && and || operators
+* @array_commands: function that array of the commands.
 * @i: index in the array_commands to be checked
 * @array_operators: array of the logical operators for each previous command
-*
 * Return: index of the last command in the array_commands.
 */
 int check_logic_ops(char *array_commands[], int i, char array_operators[])
@@ -64,12 +53,10 @@ int check_logic_ops(char *array_commands[], int i, char array_operators[])
 	char *temp = NULL;
 	int j;
 
-	/* checks for the & char in the command line*/
 	for (j = 0; array_commands[i] != NULL  && array_commands[i][j]; j++)
 	{
 		if (array_commands[i][j] == '&' && array_commands[i][j + 1] == '&')
 		{
-			/* split the line when chars && was found */
 			temp = array_commands[i];
 			array_commands[i][j] = '\0';
 			array_commands[i] = str_duplicate(array_commands[i]);
@@ -81,7 +68,6 @@ int check_logic_ops(char *array_commands[], int i, char array_operators[])
 		}
 		if (array_commands[i][j] == '|' && array_commands[i][j + 1] == '|')
 		{
-			/* split the line when chars || was found */
 			temp = array_commands[i];
 			array_commands[i][j] = '\0';
 			array_commands[i] = str_duplicate(array_commands[i]);
@@ -94,3 +80,4 @@ int check_logic_ops(char *array_commands[], int i, char array_operators[])
 	}
 	return (i);
 }
+/** Anthony robert **/
